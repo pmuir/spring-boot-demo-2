@@ -1,0 +1,6 @@
+extensions:
+- name: mavenCodeQuality
+  namespace: jx
+  parameters:
+  - name: provider
+    value: github
