@@ -16,7 +16,11 @@ pipeline {
           HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
         }
         steps {
-          sh "jx step pre extend"
+          git url: 'https://github.com/muirp/spring-boot-demo-2.git', branch: env.BRANCH_NAME
+          sh "git config --global credential.helper store"
+          sh "jx step validate --min-jx-version 1.1.73"
+          sh "jx step git credentials"
+          sh 'jx step pre extend'
           sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
           sh "mvn install"
           sh 'export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml'
@@ -38,7 +42,7 @@ pipeline {
           branch 'master'
         }
         steps {
-            sh "jx step pre extend"
+            sh 'jx step pre extend'
             git 'https://github.com/muirp/spring-boot-demo-2.git'
 
             sh "git config --global credential.helper store"
@@ -77,9 +81,7 @@ pipeline {
     }
     post {
         always {
-            container('maven') {
-                sh 'jx step post run'
-            }
+            sh 'jx step post run'
         }
     }
 }
