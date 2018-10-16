@@ -16,7 +16,6 @@ pipeline {
           HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
         }
         steps {
-          git 'https://github.com/muirp/spring-boot-demo-2.git'
           sh "git config --global credential.helper store"
           sh "jx step validate --min-jx-version 1.1.73"
           sh "jx step git credentials"
@@ -81,6 +80,7 @@ pipeline {
     }
     post {
         always {
+            git 'https://github.com/muirp/spring-boot-demo-2.git'
             sh 'jx step post run'
         }
     }
