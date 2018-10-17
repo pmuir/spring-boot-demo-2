@@ -80,9 +80,6 @@ pipeline {
     }
     post {
         always {
-            sh 'git fetch --unshallow'
-            sh 'git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'
-            sh 'git fetch origin'
             sh 'jx step post run'
         }
     }
